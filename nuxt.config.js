@@ -33,6 +33,8 @@ export default {
     background: 'white'
   },
 
+  target: 'static',
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'vue-json-pretty/lib/styles.css'
