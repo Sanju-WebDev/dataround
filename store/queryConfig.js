@@ -13,7 +13,7 @@ export const state = () => ({
         },        
     },     
     selectedConfig: {
-        configKey: '',
+        configKey: '1', //default should be ""
         dbtype: 'mysql', 
         dbconfig: '', 
         query: '', 

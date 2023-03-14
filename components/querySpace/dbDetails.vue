@@ -16,6 +16,16 @@
             <LoadingComponent v-if="collections.loading" />
             <i class="fa fa-check" aria-hidden="true" v-else-if="!collections.loading && collections.data.length>0" ></i>
         </div>
+        <div class="db-detail" v-if="dbtype==='influx'" >
+            <input list="databases" @change="inputHandler($event,'collection')" name="collection" :value="collection" placeholder="collection" type="text" />
+            <datalist id="databases">
+                <option v-for="(database, index) in databases.data" :key="index" :value="database">{{ database }}</option>
+            </datalist>            
+            <span class="fetch-action" @click="fetchDatabases" ><u>fetch databases</u></span>
+            <span class="fetch-action" v-for="(database, index) in databases.data" @click="fetchDatabases" ><u>fetch databases1</u></span>
+            <LoadingComponent v-if="databases.loading" />
+            <i class="fa fa-check" aria-hidden="true" v-else-if="!databases.loading && databases.data.length>0" ></i>
+        </div>
     </div>
 </template>
 
@@ -32,7 +42,12 @@ export default {
                 loading: false,
                 data: [],
                 error: null,
-            }
+            }, 
+            databases: {
+                loading: false,
+                data: [],
+                error: null,
+            }, 
         };
     },
     computed: {
@@ -64,6 +79,19 @@ export default {
             catch (error) {
                 this.collections.loading = false;
                 this.collections.error = error;
+            }
+        }, 
+        async fetchDatabases() {
+            this.databases.loading = true;
+            try {
+                const databases = await axios.post("http://localhost:8020/queryfetch/data/databases", this.queryConfig);
+                const { data } = databases;
+                this.databases.data = data.data;
+                this.databases.loading = false;
+            }
+            catch (error) {
+                this.databases.loading = false;
+                this.databases.error = error;
             }
         }
     },
