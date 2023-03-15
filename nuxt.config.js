@@ -34,6 +34,9 @@ export default {
   },
 
   target: 'static',
+  router: {
+    base: '/dataround/'
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [

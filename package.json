@@ -7,7 +7,8 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "jsondb": "json-server --watch db.json --port 5000"
+    "jsondb": "json-server --watch db.json --port 5000",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -21,5 +22,8 @@
     "vuex": "^3.6.2",
     "vuex-persistedstate": "^4.1.0",
     "webpack": "^4.46.0"
+  },
+  "devDependencies": {
+    "push-dir": "^0.4.1"
   }
 }
