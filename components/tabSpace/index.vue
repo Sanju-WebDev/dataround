@@ -1,9 +1,9 @@
 <template>
   <div class="tab-space" >
     <Tab v-for="config in Object.keys(configs)" :key="config" :config="configs[config]" :totalConfigs="Object.keys(configs).length" :configKey="config" />
-    <span class="add-button" v-if="Object.keys(configs).length<=20" @click="addNewconfig" title="add new tab" >
+    <!-- <span class="add-button" v-if="Object.keys(configs).length<=20" @click="addNewconfig" title="add new tab" >
         <i class="fa fa-plus" aria-hidden="true"></i>
-    </span>
+    </span> -->
     <!-- {{configs}} -->
   </div>
 </template>
