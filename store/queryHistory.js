@@ -13,7 +13,7 @@ export const actions = {
     async fetchQueryHistory( {commit} ) {
         commit("LOAD_DATA")
         try {
-            const result = await axios.get("http://localhost:5000/queries");
+            const result = await axios.get("https://dataround.netlify.app/queries");
             const {data} = result;
             commit("STORE_DATA", data)
             return data

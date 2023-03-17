@@ -31,7 +31,19 @@ export const actions = {
         const key = rootState.queryConfig.selectedConfig.configKey;
         commit("LOAD_DATA", key)
         try {
-            const result = await axios.post('http://127.0.0.1:8020/queryfetch/data', config)
+            const result = await axios
+            ({
+                headers: {
+                  'Access-Control-Allow-Origin': '*',
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                url: 'https://dataround.netlify.app/queryfetch/data',
+                 data: config
+                ,
+                method: 'POST'
+              })
+            // .post('https://dataround.netlify.app/queryfetch/data', config)
             const { data } = result
             commit("STORE_DATA", {key, data: data.data});
             return data;

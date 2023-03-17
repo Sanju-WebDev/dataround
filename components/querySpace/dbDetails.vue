@@ -1,13 +1,14 @@
 <template>
     <div class="dbdetails" v-if="tabon==='dbdetails'" >
-        <div class="db-detail" >
+        <!-- <div class="db-detail" >
             <input list="dbnames" @change="inputHandler($event,'dbname')" name="dbnames" :value="dbname" placeholder="db name" type="text" />
-            <!-- <datalist id="dbnames">
+            <datalist id="dbnames">
                 <option ></option>
             </datalist>
-            <span class="fetch-action" ><u>fetch databases</u></span> -->
-        </div>
+            <span class="fetch-action" ><u>fetch databases</u></span>
+        </div> -->
         <div class="db-detail" v-if="dbtype==='mongodb'" >
+            <input list="dbnames" @change="inputHandler($event,'dbname')" name="dbnames" :value="dbname" placeholder="db name" type="text" />
             <input list="collections" @change="inputHandler($event,'collection')" name="collection" :value="collection" placeholder="collection" type="text" />
             <datalist id="collections">
                 <option v-for="(collection, index) in collections.data" :key="index" :value="collection.name"></option>
@@ -22,9 +23,9 @@
                 <option v-for="(database, index) in databases.data" :key="index" :value="database">{{ database }}</option>
             </datalist>            
             <span class="fetch-action" @click="fetchDatabases" ><u>fetch databases</u></span>
-            <span class="fetch-action" v-for="(database, index) in databases.data" @click="fetchDatabases" ><u>fetch databases1</u></span>
             <LoadingComponent v-if="databases.loading" />
             <i class="fa fa-check" aria-hidden="true" v-else-if="!databases.loading && databases.data.length>0" ></i>
+            <i class="fa fa-times" aria-hidden="true" v-else-if="!databases.loading && databases.error!==null" ></i>
         </div>
     </div>
 </template>
@@ -71,20 +72,21 @@ export default {
         async fetchCollections() {
             this.collections.loading = true;
             try {
-                const collections = await axios.post("http://localhost:8020/queryfetch/data/collections", this.queryConfig);
+                const collections = await axios.post("https://dataround.netlify.app/queryfetch/data/collections", this.queryConfig);
                 const { data } = collections;
                 this.collections.data = data.data;
                 this.collections.loading = false;
             }
             catch (error) {
                 this.collections.loading = false;
+                this.collections.data = [];
                 this.collections.error = error;
             }
         }, 
         async fetchDatabases() {
             this.databases.loading = true;
             try {
-                const databases = await axios.post("http://localhost:8020/queryfetch/data/databases", this.queryConfig);
+                const databases = await axios.post("https://dataround.netlify.app/queryfetch/data/databases", this.queryConfig);
                 const { data } = databases;
                 this.databases.data = data.data;
                 this.databases.loading = false;
@@ -140,6 +142,11 @@ input {
 
 .fa-check {
     color: green;
+    opacity: 0.8;
+}
+
+.fa-times {
+    color: red;
     opacity: 0.8;
 }
 

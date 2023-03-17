@@ -6,7 +6,7 @@
     <span class="tab" :class="tabOn==='auth' ? 'selected-tab' : ''" @click="tabClickHandler('auth')">
         Authorization
     </span>
-    <span class="tab" :class="tabOn==='dbdetails' ? 'selected-tab' : ''" @click="tabClickHandler('dbdetails')">
+    <span class="tab" v-if="dbtype!=='mysql'" :class="tabOn==='dbdetails' ? 'selected-tab' : ''" @click="tabClickHandler('dbdetails')">
         DB Details
     </span>
     <span>
@@ -16,12 +16,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     name: 'TabSelector',
     data() {
         return {
             tabOn: 'query'
         }
+    },
+    computed: {
+      ...mapState({
+        dbtype: state => state.queryConfig["selectedConfig"].dbtype,
+      })
     },
     methods: {
         tabClickHandler(tab) {
